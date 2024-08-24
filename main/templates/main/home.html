@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex">
+  <h1 class="ms-auto">
+    <a href="{% url 'recycle' %}">
+      <button class="btn btn-warning"> <i class="fa-solid fa-trash"></i> Trash</button></h1>
+    </a>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="col-12 col-md-12 mt-2 mx-3" style="height: 100%; color: black;      box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.5);">
+           <h1 class="text-center">Task Management DashBoard<hr></h1>
+
+        <form class="row g-3 ms-4 mt-4" method="POST" action="{% url 'search' %}">
+          {% csrf_token %}
+            <div class="col-5 ms-3">
+              <input type="text" class="form-control" id="inputPassword2" placeholder="Search" name="search-area" value="">
+            </div>
+
+            <div class="col-3">
+              <button type="submit" class="btn mb-3" style="background-color: #009587; color: #fff;">Search</button>
+            </div>
+        </form>                
+        <div class="row mt-1">
+            <a href="{% url 'create_form' %}" class="side-links col-auto fw-semibold" style="color: rgb(247, 89, 89);"><div>Add Task &#43</div></a>
+          </div> 
+          <div class="container">
+            <div class="row">
+              <div class="col">
+           {% if not data %}
+                <div class="alert alert-info">
+                    <p class="text-center">There is no data</p>
+                </div>
+            {% else %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">S.N</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Priority</th>
+                            <th scope="col">Deadline</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in data %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ i.title }}</td>
+                                <td>{{ i.description }}</td>
+                                <td>{{ i.status }}</td>
+                                <td>{{ i.priority }}</td>
+                                <td>{{ i.deadline }}</td>
+                                <td>
+                                    <a href="{% url 'edit' i.id %}">
+                                        <button type="button" class="btn btn-primary">
+                                            <i class="fa-regular fa-pen-to-square"></i> Update
+                                        </button>
+                                    </a>
+                                    <a href="{% url 'delete' i.id %}">
+                                        <button type="button" class="btn btn-danger">
+                                            <i class="fa-solid fa-trash"></i> Delete
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+             {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            
+           </div>
+            </div>
+          </div>
+      
+        </div>
+    </div>
+    </div>
+   <!---home page for task--->
+
+  
+
+{% endblock content %}
+  
+
+      
